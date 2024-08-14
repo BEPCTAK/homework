@@ -1,4 +1,5 @@
-my_string = input("Напишите любое словосочетание: ")
+print("Напишите любое словосочетание:")
+my_string =input( )
 print(len(my_string))
 print(my_string.upper())
 print(my_string.lower())
