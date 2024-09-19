@@ -1,20 +1,17 @@
 import random
 
+
 def generate_password(n):
-    if n < 3 or n > 20:
-        raise ValueError("Число должно быть в диапазоне от 3 до 20")
+    result = ""
 
-    numbers = list(range(1, n + 1))
-    password = ""
+    for i in range(1, n // 2 + 1):
+        for j in range(n, n // 2, -1):
+            if i < j:  # Проверка на уникальность пары
+                pair_sum = i + j
+                if n % pair_sum == 0:
+                    result += f"{i}{j}"
 
-
-    for i in range(len(numbers)):
-        for j in range(i, len(numbers)):
-            pair_sum = numbers[i] + numbers[j]
-            if n % pair_sum == 0:
-                password += f"{numbers[i]}{numbers[j]}"
-
-    return password
+    return result
 
 
 n = random.randint(3, 20)
