@@ -2,7 +2,6 @@ class House:
     houses_history = []
 
     def __new__(cls, *args, **kwargs):
-
         instance = super(House, cls).__new__(cls)
 
         cls.houses_history.append(args[0])
@@ -26,7 +25,6 @@ class House:
                 print(floor)
 
     def __len__(self):
-
         return self.number_of_floors
 
     def __str__(self):
