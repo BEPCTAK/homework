@@ -19,29 +19,37 @@ class House:
     def __eq__(self, other):
         if isinstance(other, House):
             return self.number_of_floors == other.number_of_floors
+        elif isinstance(other, int):
+            return self.number_of_floors == other
         return False
 
     def __lt__(self, other):
         if isinstance(other, House):
             return self.number_of_floors < other.number_of_floors
+        elif isinstance(other, int):
+            return self.number_of_floors < other
         return NotImplemented
 
     def __le__(self, other):
         if isinstance(other, House):
             return self.number_of_floors <= other.number_of_floors
+        elif isinstance(other, int):
+            return self.number_of_floors <= other
         return NotImplemented
 
     def __gt__(self, other):
         if isinstance(other, House):
             return self.number_of_floors > other.number_of_floors
-        return NotImplemented
+        return not self.__le__(other)
 
     def __ge__(self, other):
         if isinstance(other, House):
             return self.number_of_floors >= other.number_of_floors
-        return NotImplemented
+        return not self.__lt__(other)
 
     def __ne__(self, other):
+        if isinstance(other, House):
+            return self.number_of_floors != other.number_of_floors
         return not self.__eq__(other)
 
     def __add__(self, value):
@@ -49,16 +57,15 @@ class House:
             self.number_of_floors += value
             return self
         elif isinstance(value, House):
-
             self.number_of_floors += value.number_of_floors
             return self
         return NotImplemented
 
-    def __radd__(self, value):
-        return self.__add__(value)
+    def __radd__(self, other):
+        return self.__add__(other)
 
-    def __iadd__(self, value):
-        return self.__add__(value)
+    def __iadd__(self, other):
+        return self.__add__(other)
 
 
 h1 = House('ЖК Эльбрус', 10)
