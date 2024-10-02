@@ -12,7 +12,7 @@ class User:
         return hashlib.sha256(password.encode()).hexdigest()
 
     def __repr__(self):
-        return f"User(nickname={self.nickname}, age={self.age})"
+        return self.nickname
 
     def __eq__(self, other):
         return self.nickname == other.nickname and self.password == other.password
@@ -71,7 +71,6 @@ class UrTube:
         video = next((v for v in self.videos if v.title == title), None)
 
         if not video:
-            print("Видео не найдено")
             return
 
         if video.adult_mode and self.current_user.age < 18:
