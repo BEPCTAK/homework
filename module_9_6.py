@@ -1,9 +1,9 @@
 def all_variants(text):
-    n = len(text)
+    length = len(text)
 
-    for i in range(1 << n):
-        sub = [text[j] for j in range(n) if (i & (1 << j))]
-        yield "".join(sub)
+    for size in range(1, length + 1):
+        for i in range(length - size + 1):
+            yield text[i:i + size]
 
 
 a = all_variants("abc")
