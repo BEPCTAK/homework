@@ -30,7 +30,7 @@ class Cafe:
         for guest in guests:
             # Проверка на наличие свободного стола
             free_table = next((table for table in self.tables if table.guest is None), None)
-            if free_table:
+            if free_table is not None:
                 free_table.guest = guest  # Садим гостя за стол
                 guest.start()  # Запускаем поток гостя
                 print(f"{guest.name} сел(-а) за стол номер {free_table.number}")
@@ -41,7 +41,7 @@ class Cafe:
     def discuss_guests(self):
         while not self.queue.empty() or any(table.guest and table.guest.is_alive() for table in self.tables):
             for table in self.tables:
-                if table.guest and not table.guest.is_alive():
+                if table.guest is not None and not table.guest.is_alive():
                     print(f"{table.guest.name} покушал(-а) и ушёл(ушла)")
                     print(f"Стол номер {table.number} свободен")
                     table.guest = None  # Освобождаем стол
