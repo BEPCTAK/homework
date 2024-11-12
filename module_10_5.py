@@ -1,5 +1,6 @@
 import time
-import multiprocessing
+from multiprocessing import Pool
+import os
 
 
 def read_info(name):
@@ -7,26 +8,37 @@ def read_info(name):
     with open(name, 'r') as file:
         while True:
             line = file.readline()
-            if not line:  # Если строка пустая, выходим из цикла
+            if not line:
                 break
-            all_data.append(line.strip())  # Добавляем строку в список, убирая лишние пробелы
-    # Возвращать или выводить список all_data не нужно, просто собираем данные
+            all_data.append(line.strip())
+
+
+def linear_read(filenames):
+    for filename in filenames:
+        read_info(filename)
+
+
+def parallel_read(filenames):
+    with Pool() as pool:
+        pool.map(read_info, filenames)
 
 
 if __name__ == '__main__':
-    # Список названий файлов
     filenames = [f'./file {number}.txt' for number in range(1, 5)]
+
+    for filename in filenames:
+        if not os.path.exists(filename):
+            print(f"Файл {filename} не найден.")
+            exit(1)
 
     # Линейный вызов
     start_time = time.time()
-    for filename in filenames:
-        read_info(filename)
-    linear_duration = time.time() - start_time
-    print(f'Линейное выполнение: {linear_duration:.6f} секунд')
+    linear_read(filenames)
+    linear_time = time.time() - start_time
+    print(f"Время выполнения линейного вызова: {linear_time:.4f} секунд")
 
     # Многопроцессный вызов
     start_time = time.time()
-    with multiprocessing.Pool() as pool:
-        pool.map(read_info, filenames)
-    multiprocessing_duration = time.time() - start_time
-    print(f'Многопроцессное выполнение: {multiprocessing_duration:.6f} секунд')
+    parallel_read(filenames)
+    multiprocessing_time = time.time() - start_time
+    print(f"Время выполнения многопроцессного вызова: {multiprocessing_time:.4f} секунд")
