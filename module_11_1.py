@@ -32,53 +32,6 @@ squared_array = np.square(array)
 print("\nМассив после возведения в квадрат:")
 print(squared_array)
 
-
-# Функция для выполнения GET-запроса к Википедии
-def fetch_wikipedia_homepage():
-    url = "https://ru.wikipedia.org"
-    response = requests.get(url)
-
-    if response.status_code == 200:
-        print("Данные успешно получены с Википедии:")
-        print(response.text[:1000])  # Выводим первые 1000 символов текста
-    else:
-        print(f"Ошибка при получении данных: {response.status_code}")
-
-
-print('\n')
-
-
-# Функция для получения заголовков страницы
-def fetch_headers(url):
-    response = requests.head(url)
-
-    if response.status_code == 200:
-        print("Заголовки ответа:")
-        for key, value in response.headers.items():
-            print(f"{key}: {value}")
-    else:
-        print(f"Ошибка при получении заголовков: {response.status_code}")
-
-
-# Функция для выполнения POST-запроса (пример, хотя для Википедии это может быть неуместно)
-def post_example():
-    url = "https://httpbin.org/post"  # Используем httpbin для демонстрации POST-запроса
-    data = {"key": "value"}
-    response = requests.post(url, data=data)
-
-    if response.status_code == 200:
-        print("Данные успешно отправлены:")
-        print(response.json())  # Выводим ответ в формате JSON
-    else:
-        print(f"Ошибка при отправке данных: {response.status_code}")
-
-
-# Пример использования функций
-if __name__ == "__main__":
-    fetch_wikipedia_homepage()
-    fetch_headers("https://ru.wikipedia.org")
-    post_example()
-
 print("\n")
 
 # Генерация данных
@@ -118,3 +71,37 @@ plt.grid()
 # Показать все графики
 plt.tight_layout()  # Автоматическая настройка расположения графиков
 plt.show()
+
+
+# Функция для выполнения GET-запроса
+def fetch_page(url):
+    try:
+        response = requests.get(url)  # Отправка GET-запроса
+        response.raise_for_status()  # Проверка на наличие ошибок
+        return response.text  # Возврат текста страницы
+    except requests.exceptions.HTTPError as errh:
+        print("HTTP Error:", errh)
+    except requests.exceptions.ConnectionError as errc:
+        print("Connection Error:", errc)
+    except requests.exceptions.Timeout as errt:
+        print("Timeout Error:", errt)
+    except requests.exceptions.RequestException as err:
+        print("Error:", err)
+
+
+# Функция для вывода данных
+def print_page_content(content):
+    print(content[:1000])  # Вывод первых 1000 символов страницы
+
+
+# Основная функция для получения и отображения содержимого страницы
+def main():
+    url = 'https://ria.ru'  # URL для запроса
+    page_content = fetch_page(url)  # Получение содержимого страницы
+    if page_content:
+        print_page_content(page_content)  # Вывод содержимого на консоль
+
+
+# Запуск основной функции
+if __name__ == "__main__":
+    main()
