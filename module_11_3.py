@@ -1,5 +1,4 @@
 def introspection_info(obj):
-    """Функция для интроспекции объекта и получения его информации."""
     info = {}
 
     # Определяем тип объекта
@@ -15,7 +14,7 @@ def introspection_info(obj):
     # Получаем модуль, к которому принадлежит объект
     info['module'] = getattr(obj, '__module__', None)  # Используем getattr для избежания ошибки
 
-    # Другие интересные свойства объекта
+    # Cвойства объекта
     info['is_instance'] = isinstance(obj, object)
 
     # Если объект является классом, добавим информацию о его родительских классах
@@ -25,7 +24,6 @@ def introspection_info(obj):
     return info
 
 
-# Примеры работы функции
 number_info = introspection_info(42)
 print(number_info)
 
@@ -36,7 +34,6 @@ list_info = introspection_info([1, 2, 3])
 print(list_info)
 
 
-# Пример для пользовательского класса
 class MyClass:
     def my_method(self):
         pass
