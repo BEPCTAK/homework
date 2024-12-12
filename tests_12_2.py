@@ -47,7 +47,7 @@ class TournamentTest(unittest.TestCase):
         TournamentTest.all_results[1] = results
 
         # Проверяем правильность результатов
-        self.assertEqual(results[1], "Usain")
+        self.assertTrue(results[1] == "Usain")
 
     def test_race_andrey_nick(self):
         tournament = Tournament(90, self.runner2, self.runner3)
@@ -56,7 +56,7 @@ class TournamentTest(unittest.TestCase):
         TournamentTest.all_results[2] = results
 
         # Проверяем правильность результатов
-        self.assertEqual(results[1], "Andrey")
+        self.assertTrue(results[1] == "Andrey")
 
     def test_race_usain_andrey_nick(self):
         tournament = Tournament(90, self.runner1, self.runner2, self.runner3)
@@ -65,9 +65,4 @@ class TournamentTest(unittest.TestCase):
         TournamentTest.all_results[3] = results
 
         # Проверяем правильность результатов
-        self.assertEqual(results[1], "Usain")
-
-
-# Запуск тестов
-if __name__ == '__main__':
-    unittest.main()
+        self.assertTrue(results[1] == "Usain")
