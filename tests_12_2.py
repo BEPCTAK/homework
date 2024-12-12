@@ -2,28 +2,6 @@ import unittest
 from runner import Runner, Tournament
 
 
-class Runner:
-    def __init__(self, name, speed=5):
-        self.name = name
-        self.distance = 0
-        self.speed = speed
-
-    def run(self):
-        self.distance += self.speed * 2  # Увеличиваем дистанцию в зависимости от скорости
-
-    def walk(self):
-        self.distance += self.speed  # Увеличиваем дистанцию при ходьбе
-
-    def __str__(self):
-        return self.name
-
-    def __eq__(self, other):
-        if isinstance(other, str):
-            return self.name == other
-        elif isinstance(other, Runner):
-            return self.name == other.name
-
-
 class Tournament:
     def __init__(self, distance, *participants):
         self.full_distance = distance
@@ -31,12 +9,14 @@ class Tournament:
 
     def start(self):
         finishers = {}
+        place = 1
         while self.participants:
-            for participant in self.participants:
+            for participant in list(self.participants):  # Используем список для итерации
                 participant.run()
                 if participant.distance >= self.full_distance:
-                    finishers[participant.name] = participant
-                    self.participants.remove(participant)
+                    finishers[place] = participant.name  # Сохраняем имя бегуна
+                    place += 1
+                    self.participants.remove(participant)  # Удаляем финишировавшего участника
                     break  # Прерываем цикл для следующего раунда
         return finishers
 
@@ -57,41 +37,35 @@ class TournamentTest(unittest.TestCase):
     @classmethod
     def tearDownClass(cls):
         print("\nTournament Results:")
-        for name, runner in cls.all_results.items():
-            print(f"{name}: {runner.distance}")
+        for result in cls.all_results.values():
+            print(result)
 
     def test_race_usain_nick(self):
         tournament = Tournament(90, self.runner1, self.runner3)
 
         results = tournament.start()
-        TournamentTest.all_results.update(results)
+        TournamentTest.all_results[1] = results
 
-        last_runner_name = max(results.keys(), key=lambda k: results[k].distance)
-
-        # Проверяем, что Usain финишировал первым
-        self.assertTrue(last_runner_name == "Usain")
+        # Проверяем правильность результатов
+        self.assertEqual(results[1], "Usain")
 
     def test_race_andrey_nick(self):
         tournament = Tournament(90, self.runner2, self.runner3)
 
         results = tournament.start()
-        TournamentTest.all_results.update(results)
+        TournamentTest.all_results[2] = results
 
-        last_runner_name = max(results.keys(), key=lambda k: results[k].distance)
-
-        # Проверяем, что Andrey финишировал первым
-        self.assertTrue(last_runner_name == "Andrey")
+        # Проверяем правильность результатов
+        self.assertEqual(results[1], "Andrey")
 
     def test_race_usain_andrey_nick(self):
         tournament = Tournament(90, self.runner1, self.runner2, self.runner3)
 
         results = tournament.start()
-        TournamentTest.all_results.update(results)
+        TournamentTest.all_results[3] = results
 
-        last_runner_name = max(results.keys(), key=lambda k: results[k].distance)
-
-        # Проверяем, что Usain финишировал первым
-        self.assertTrue(last_runner_name == "Usain")
+        # Проверяем правильность результатов
+        self.assertEqual(results[1], "Usain")
 
 
 # Запуск тестов
