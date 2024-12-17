@@ -4,7 +4,7 @@ from aiogram.utils import executor
 
 
 
-api = "7695081670:AAEBUGSH-FofOPIZKsdum6eIaNR3wmkmqRw"
+api = ""
 
 bot = Bot(token=api)
 storage = MemoryStorage()
