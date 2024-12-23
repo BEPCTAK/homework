@@ -6,7 +6,7 @@ from aiogram.dispatcher.filters.state import State, StatesGroup
 from aiogram.utils import executor
 from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
 
-from config import TOKEN
+TOKEN =''
 
 
 bot = Bot(token=TOKEN)
